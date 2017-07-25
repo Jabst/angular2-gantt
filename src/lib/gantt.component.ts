@@ -16,7 +16,6 @@ import { IGanttOptions, Project } from './shared/interfaces';
     `,
     styles: [`
         .gantt_container {
-            font-family: Arial;
             font-size: 13px;
             border: 1px solid #cecece;
             position: relative;

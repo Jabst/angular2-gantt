@@ -12,9 +12,8 @@ import { Component, Input } from '@angular/core';
     `,
     styles: [`
         .gantt-header {
-            background-color: whitesmoke;
+            background-color: rgba(0,0,0, 0.1);
             height: 40px;
-            border-bottom: 1px solid #e0e0e0;
         }
 
         .gantt-header-title {
@@ -30,7 +29,7 @@ import { Component, Input } from '@angular/core';
             float: right;
             padding: 6px;
         }
-    `] 
+    `], 
 })
 export class GanttHeaderComponent {
     @Input() name:any;

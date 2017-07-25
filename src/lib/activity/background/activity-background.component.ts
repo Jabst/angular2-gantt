@@ -17,19 +17,19 @@ import { Zooming } from '../../shared/interfaces';
         }
 
         .gantt_activity_row {
-            border-bottom: 1px solid #ebebeb;
-            background-color: #fff;
+            
+            background-color:rgba(0, 0, 0, 0.1)
             box-sizing: border-box;
         }
 
         .gantt_activity_cell {
             display: inline-block;
             height: 100%;
-            border-right: 1px solid #ebebeb;
+            border-bottom: solid #e5e5d8;
         }
 
         .weekend {
-            background-color:whitesmoke;
+            background-color:rgba(0, 0, 0, 0.1)
         }
     `]
 })

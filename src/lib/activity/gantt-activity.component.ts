@@ -8,39 +8,28 @@ import { IGanttOptions, Zooming } from '../shared/interfaces';
     selector: 'gantt-activity',
     template: `
     <div class="actions_bar">
-        <div style="float:right">
+        <div style="margin-top: 3px; margin-bottom: 3px;">
             <label>
-                <button (click)="zoomTasks('hours')" style="background-color:whitesmoke; border:none; font-size:16px; cursor:pointer">Hour</button>
+                <button (click)="zoomTasks('hours')" class="btn btn-default">Hour</button>
             </label>
             <label>
-                <button (click)="zoomTasks('days')" style="background-color:whitesmoke; border:none; font-size:16px; cursor:pointer">Day</button>
+                <button (click)="zoomTasks('days')" class="btn btn-default">Day</button>
             </label>
-            <button (click)="expand()" style="background-color:whitesmoke; border:none; font-size:21px; cursor:pointer" [innerHTML]="activityActions.expandedIcon"></button>
         </div>
     </div>
-    <div class="grid" #ganttGrid [ngStyle]="{ 'height': ganttActivityHeight, 'width': ganttService.gridWidth + 'px'}">
+    <div class="grid" #ganttGrid [ngStyle]="{ 'height': ganttActivityHeight, 'width': 330 + 'px'}">
     <div class="grid_scale" [ngStyle]="setGridScaleStyle()">
         <div class="grid_head_cell" *ngFor="let column of gridColumns" [style.width]="column.width + 'px'" [style.left]="column.left + 'px'">
             <label>{{column.name}} <span *ngIf="column.name === 'Duration'" style="font-weight:bold">{{ ganttService.calculateTotalDuration(ganttService.TASK_CACHE) }}</span></label>            
         </div>
         <div class="grid_head_cell">
-            <button (click)="toggleAllChildren()" style="background-color:whitesmoke; border:none; font-size:21px; cursor:pointer">{{ treeExpanded ? '&#x25b2;' : '&#x25bc;' }}</button>
+            <button (click)="toggleAllChildren()" style="background-color:rgba(0, 0, 0, 0.1); border:none; font-size:21px; cursor:pointer">{{ treeExpanded ? '&#x25b2;' : '&#x25bc;' }}</button>
         </div>
     </div>
     <div class="grid_data" #ganttGridData [ngStyle]="{ 'height': ganttService.calculateGanttHeight() }">
     <div #row *ngFor="let data of ganttService.groupData(ganttService.TASK_CACHE)" (click)="toggleChildren(row, data)" class="grid_row" [ngStyle]="setGridRowStyle(ganttService.isParent(data.treePath))" [attr.data-id]="ganttService.setIdPrefix(data.id)"  [attr.data-isParent]="ganttService.isParent(data.treePath)" [attr.data-parentid]="ganttService.setIdPrefix(data.parentId)">
-            <div class="grid_cell" [ngStyle]="{ 'width': gridColumns[0].width + 'px' }">
-                <div [innerHTML]="getStatusIcon(data.status, data.percentComplete)" [style.color]="getStatusIconColor(data.status, data.percentComplete)"></div>
-            </div>
             <div class="grid_cell" [ngStyle]=" { 'width': gridColumns[1].width + 'px', 'padding-left': ganttService.isChild(data.treePath) }">
                 <div class="gantt_tree_content">{{data.name}}</div>                
-            </div>
-            <div class="grid_cell" [ngStyle]="{ 'width': gridColumns[2].width + 'px' }">
-                <!--<div>{{ ganttService.isParent(data.treePath) === true ? ganttService.calculateParentTotalPercentage(data, project.tasks) : data.percentComplete }}</div>-->
-                <div>{{ data.percentComplete }}</div>
-            </div>
-            <div class="grid_cell" [ngStyle]="{ 'width': gridColumns[3].width + 'px'}">
-                <div> {{ ganttService.calculateDuration(data) }}</div>
             </div>
         </div>
     </div>
@@ -95,10 +84,10 @@ import { IGanttOptions, Zooming } from '../shared/interfaces';
         }
 
         .grid_scale {
-            color: #6b6b6b;
+            color: white;
             font-size: 12px;
             border-bottom: 1px solid #e0e0e0;
-            background-color: whitesmoke;
+            background-color:rgba(0, 0, 0, 0.1)
         }
 
         .grid_head_cell {
@@ -126,18 +115,18 @@ import { IGanttOptions, Zooming } from '../shared/interfaces';
         .grid_row {
             box-sizing: border-box;
             border-bottom: 1px solid #e0e0e0;
-            background-color: #fff;
+            background-color:rgba(0, 0, 0, 0.1)
             position: relative;
             -webkit-user-select: none;
         }
 
         .grid_row:hover {
-            background-color: #eeeeee;
+            background-color:rgba(0, 0, 0, 0.1)
         }
 
         .grid_cell {
             border-right: none;
-            color: #454545;
+            color: white;
             display: inline-block;
             vertical-align: top;
             padding-left: 6px;
@@ -151,15 +140,14 @@ import { IGanttOptions, Zooming } from '../shared/interfaces';
 
         .actions_bar {
             /*border-top: 1px solid #cecece;*/
-            border-bottom: 1px solid #e0e0e0;
+            /*border-bottom: 1px solid #e0e0e0;*/
             clear: both;
             /*margin-top: 90px;*/
-            height: 28px;
-            background: whitesmoke;
+            height: 34px;
+            background-color:rgba(0, 0, 0, 0.1)
             color: #494949;
             font-family: Arial, sans-serif;
             font-size: 13px;
-            padding-left: 15px;
             line-height: 25px;
         }
 
@@ -174,7 +162,7 @@ export class GanttActivityComponent implements OnInit, DoCheck {
     @Input() options: any;
     @Output() onGridRowClick: EventEmitter<any> = new EventEmitter<any>();
 
-    private upTriangle: string = '&#x25b2;' // BLACK UP-POINTING TRIANGLE
+    private upTriangle: string = '&#x25b2;'; // BLACK UP-POINTING TRIANGLE
     private downTriangle: string = '&#x25bc;'; // BLACK DOWN-POINTING TRIANGLE
     private zoom: EventEmitter<string> = new EventEmitter<string>();
     private activityActions = {
@@ -209,10 +197,10 @@ export class GanttActivityComponent implements OnInit, DoCheck {
     private data: any[] = [];
 
     public gridColumns: any[] = [
-        { name: '', left: 0, width: 16 },
-        { name: 'Task', left: 20, width: 330 },
-        { name: '%', left: 8, width: 40 },
-        { name: 'Duration', left: 14, width: 140 }
+        { name: '', left: 0, width: 0 },
+        { name: 'Name', left: 20, width: 300 },
+        { name: '%', left: 0, width: 0 },
+        { name: 'Duration', left: 0, width: 0 },
     ];
 
     constructor(

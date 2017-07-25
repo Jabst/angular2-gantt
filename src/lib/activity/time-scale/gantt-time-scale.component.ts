@@ -15,13 +15,12 @@ import { Zooming } from '../../shared/interfaces';
         </div>`,
     styles: [`
         .weekend {
-            background-color:whitesmoke;
+            background-color:rgba(0, 0, 0, 0.1);
         }
 
         .time_scale {
             font-size: 12px;
-            border-bottom: 1px solid #cecece;
-            background-color: #fff;
+            background-color:rgba(0, 0, 0, 0.1)
         }
 
         .time_scale_line {
@@ -39,7 +38,7 @@ import { Zooming } from '../../shared/interfaces';
             border-right: 1px solid #cecece;
             text-align: center;
             height: 100%;
-            }`
+        }`
     ],
     providers: [
         GanttService
@@ -56,7 +55,7 @@ export class GanttTimeScaleComponent implements OnInit {
     ngOnInit() {
         this.zoom.subscribe((zoomLevel: string) => {
             this.zoomLevel = zoomLevel;                        
-        });;
+        });
     }
 
     private setTimescaleStyle() {
